@@ -1,0 +1,16 @@
+The current model uses linear regression of temperature vs sales data within a given department.
+This isn't ideal as it accounts for seasonality.  For example Christmas could impact sales for monthes.  These
+kinds of long term trends can be difficult to distinguish from long term weather effects.  To account for this,
+we need to look at the sales data vs the temperature relative to other temporally local data.  In other words, we need 
+to compare the temperature of a week to the temperature of the neighboring weeks or the same weeks in other years.
+
+One way to do this, is to fit a sin/cos curve to our time vs temperature data for each store.  This can be 
+accomplished by least squares optimization where we are optimizing the distance our data is from the curve.  
+For details see:
+http://stackoverflow.com/questions/16716302/how-do-i-fit-a-sine-curve-to-my-data-with-pylab-and-numpy
+
+Once the curve is fitted, we can interperet the curve as the predicted temperature at each given week and then
+calculate the distance of each point from the curve.  If the point is above the curve, it is hotter than we would expect
+it to be.  If it is below the curve, it is cooler than we would expect for that week.  We can take these values of 
+hotter/colder than expected and compare that to the sales in each department in those corresponding departments.
+For example, given that a given week was hotter than expected for 
